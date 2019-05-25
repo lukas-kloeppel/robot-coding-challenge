@@ -6,15 +6,29 @@ import { Direction } from '../models/enums/direction.enum';
 import { UserInteractionError } from '../errors/user-interaction.error';
 
 /**
- * Command to move the robot by one step further. Checks if the new position is valid, otherwise an error is thrown
+ * Command to move the robot by one step further. Checks if the new position is valid, otherwise an error is thrown.
+ *
+ * Example command: MOVE
  */
 export class MoveCommand implements RobotCommand {
 
   readonly trigger: string = 'move';
 
+  /**
+   * Move the robot by one step into the direction he is facing.
+   * If the robot would fall of the board, an error will be thrown and the robot will not move
+   *
+   * MOVE command requires robot to be placed
+   *
+   * @param robot Robot to be placed.
+   * @param board Board where the simulation takes place
+   * @param args No args are required for the move command
+   *
+   * @return Valid position of the robot to move to
+   */
   execute(robot: Robot, board: GameBoard, args: string[]): BoardPosition {
     if (!robot.isRobotPlaced()) {
-      throw new UserInteractionError('Robot has not been placed so far. Use the PLACE command to place the robot before using the MOVE command');
+      throw new UserInteractionError('Robot has not yet been placed. Use the PLACE command to place the robot before using the MOVE command');
     }
 
     let newPosition: BoardPosition;
@@ -34,8 +48,9 @@ export class MoveCommand implements RobotCommand {
 
     }
 
+    // Check if the new position is valid, if not throw an interaction error.
     if (!board.isPositionValid(newPosition)) {
-      throw new UserInteractionError('Robot would move outside of the board, moving process stopped. Please turn robot before moving.');
+      throw new UserInteractionError('MOVE command aborted because Robot would fall off the board. Please turn robot before reusing the MOVE command.');
     }
 
     return newPosition;

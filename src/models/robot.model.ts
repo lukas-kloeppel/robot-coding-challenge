@@ -24,9 +24,9 @@ export class Robot {
   }
 
   /**
-   * Check if the robot has been already placed on the board. A placement is required for the robot to perform further
-   * actions
-   * @return boolean which indicated if the robot has been placed or not;
+   * Check if the robot has been already placed on the board. A placement is required for the robot to execute further
+   * commands
+   * @return If the robot has been placed or not;
    */
   public isRobotPlaced(): boolean {
     return !!this._position;
