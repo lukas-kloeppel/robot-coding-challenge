@@ -1,0 +1,41 @@
+{
+  "name": "robot-coding-challenge",
+  "description": "Robot coding challenge using Node and Typescript",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": "https://github.com/lukas-kloeppel/robot-coding-challenge",
+  "author": "Lukas Kloeppel",
+  "keywords": [
+    "coding-challenge",
+    "robot-game"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf dist",
+    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "build": "npm run clean && npm run lint && webpack",
+    "serve": "npm run build && node dist/index.js"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.2",
+    "rimraf": "^2.6.3",
+    "ts-loader": "^6.0.1",
+    "ts-node": "^8.1.1",
+    "tslint": "^5.16.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.4.5",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "engines": {
+    "node": ">=8.11"
+  }
+}
