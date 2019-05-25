@@ -1,6 +1,7 @@
-import { GameBoard } from '../models/game-board';
-import { UserCommunication } from '../interfaces/user-communication.interface';
-import { CliService } from './cli.service';
+import { GameBoard } from './models/game-board.model';
+import { UserCommunication } from './interfaces/user-communication.interface';
+import { CliService } from './services/cli.service';
+import { Robot } from './models/robot.model';
 
 /**
  * Robot simulator class containing the logic to run the simulation process of the robot
@@ -9,6 +10,7 @@ export class RobotSimulator {
 
   private board: GameBoard;
   private communicationService: UserCommunication;
+  private robot: Robot;
 
   constructor() {
     this.initSimulation();
@@ -20,6 +22,7 @@ export class RobotSimulator {
   private initSimulation(): void {
     this.communicationService = new CliService();
     this.board = new GameBoard(5, 5);
+    this.robot = new Robot();
   }
 
   /**

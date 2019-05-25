@@ -1,4 +1,4 @@
-import { RobotSimulator } from './services/robot-simulator';
+import { RobotSimulator } from './robot-simulator';
 import chalk from 'chalk';
 
 console.log(chalk.blue('Robot simulation started'));

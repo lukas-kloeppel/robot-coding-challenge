@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 
 /**
- * Monitoring service to take care of all application errors
+ * MonitoringService service to take care of all application errors
  */
-export class Monitoring {
+export class MonitoringService {
 
   /**
    * Logs application errors to the command line. In a real world application we would send
