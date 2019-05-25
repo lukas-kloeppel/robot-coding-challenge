@@ -14,9 +14,10 @@ export class GameBoard {
   }
 
   /**
-   * Check if the position is valid or not. This is required to check if an action can be done or not
-   * @param position to check
-   * @return boolean if the position is valid on the board or not
+   * Check if the position is valid or not, in this case if the position would be on the board or not.
+   * This is required to check if an command can be executed or not.
+   * @param position Board position to check
+   * @return Indicator if the position is valid or not
    */
   isPositionValid(position: BoardPosition): boolean {
     if (!position) {

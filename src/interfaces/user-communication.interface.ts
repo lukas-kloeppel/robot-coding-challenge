@@ -5,9 +5,9 @@
 export interface UserCommunication {
 
   /**
-   * Receive simple user input in a string format. Prints a message before the user receives the command
-   * @param message The message to be displayed to the user before the input
-   * @return Promise<string> Returns the user input as a string
+   * Read simple user input in as a single string. Prints a info message before the user types the command.
+   * @param message The message to be displayed to the user before the data input
+   * @return Returns the user input as a string
    */
   getUserInput(message: string): Promise<string>;
 

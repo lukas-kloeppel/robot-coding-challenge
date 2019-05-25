@@ -7,14 +7,27 @@ import { UserInteractionError } from '../errors/user-interaction.error';
 
 /**
  *  Command to turn the robot right on the board (e.g. change direction from north to east)
+ *
+ *  Example command: RIGHT
  */
 export class RightCommand implements RobotCommand {
 
   readonly trigger: string = 'right';
 
+  /**
+   * Turn the robot 90 degrees right and stay on the same position.
+   *
+   * RIGHT command requires robot to be placed
+   *
+   * @param robot Robot to be placed.
+   * @param board Board where the simulation takes place
+   * @param args No args are required for the left command
+   *
+   * @return Valid position of the robot with the new direction he is facing
+   */
   execute(robot: Robot, board: GameBoard, args: string[]): BoardPosition {
     if (!robot.isRobotPlaced()) {
-      throw new UserInteractionError('Robot has not been placed so far. Use the PLACE command to place the robot before using the RIGHT command');
+      throw new UserInteractionError('Robot has not yet been placed. Use the PLACE command to place the robot before using the RIGHT command');
     }
 
     switch (robot.position.direction) {

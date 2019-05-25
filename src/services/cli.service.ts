@@ -8,9 +8,9 @@ import { UserCommunication } from '../interfaces/user-communication.interface';
 export class CliService implements UserCommunication {
 
   /**
-   * Read the simple user input from the command line.
+   * Read a simple user input from the command line.
    * @param message The message which will be displayed when prompting the user input
-   * @return Promise<string> Trimmed string of the input provided by the user
+   * @return Trimmed string of the input provided by the user
    */
   public async getUserInput(message: string): Promise<string> {
     const question: inquirer.Question = {

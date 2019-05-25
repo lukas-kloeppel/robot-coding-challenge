@@ -1,24 +1,28 @@
 import { RobotSimulator } from './robot-simulator';
 import chalk from 'chalk';
 
-console.log(chalk.blue('Robot simulation started'));
+// Show start up message
+console.log(chalk.blue('Robot simulator started'));
 
+// Create simulator
 const simulator: RobotSimulator = new RobotSimulator();
 
+// Start robot simulator
 simulator.run().then(
   () => {
-    console.log(chalk.blue('Robot simulation finished'));
+    // When simulator is closed, show exit message
+    console.log(chalk.blue('Robot simulator finished'));
   }
 ).catch(
   (e: Error) => {
-    console.log(chalk.red('Robot simulation has been stopped because of an error'));
+    console.log(chalk.red('Robot simulator has been stopped because of an error'));
     console.log(chalk.red(`${e.name}: ${e.message}`));
     gracefulShutdown();
   }
 );
 
 /**
- * close all open connections and save game
+ * Close all open connections, save game and gracefully kill server.
  */
 function gracefulShutdown(): void {
   // Possibly close open connections / save game result or do other actions

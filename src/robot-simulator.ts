@@ -54,10 +54,11 @@ export class RobotSimulator {
 
         } else {
 
-          const parsedResult: { command: RobotCommand, args: string[] } = this.parseInput(input);
+          const parsedInput: { command: RobotCommand, args: string[] } = this.parseInput(input);
+
           // set the new position if the command was executed successfully.
           // Checks if the position is valid are done in the respective commands, so we can be sure that the action is allowed
-          this.robot.position = parsedResult.command.execute(this.robot, this.board, parsedResult.args);
+          this.robot.position = parsedInput.command.execute(this.robot, this.board, parsedInput.args);
         }
 
       } catch (error) {
@@ -74,12 +75,12 @@ export class RobotSimulator {
 
   /**
    * Parse the input of the user into a command to execute and a list of arguments
-   * @param result the user input string
-   * @return Object containing command to execute and a array of args. Array is empty if there is no argument
+   * @param input The user input string
+   * @return Object containing command to execute and an array of args. Array is empty if there is no argument
    */
-  parseInput(result: string): { command: RobotCommand, args: string[] } {
+  parseInput(input: string): { command: RobotCommand, args: string[] } {
     // split input into command string and array of other arguments
-    const [commandString, ...splitArgs] = result.trim().split(' ');
+    const [commandString, ...splitArgs] = input.trim().split(' ');
 
     const executableCommand: RobotCommand = this.commands.find(c => c.trigger === commandString);
     if (!executableCommand) {

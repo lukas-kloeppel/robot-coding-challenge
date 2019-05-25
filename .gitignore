@@ -33,5 +33,6 @@ jspm_packages/
 # Output of 'npm pack'
 *.tgz
 
-# Build output directory
+# Output directories
 /dist
+/docs
