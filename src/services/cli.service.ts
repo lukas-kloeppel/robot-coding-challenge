@@ -1,5 +1,5 @@
 import * as inquirer from 'inquirer';
-import { Monitoring } from './monitoring';
+import { MonitoringService } from './monitoring.service';
 import { UserCommunication } from '../interfaces/user-communication.interface';
 
 /**
@@ -25,7 +25,7 @@ export class CliService implements UserCommunication {
       return result['user-input'].trim();
 
     } catch (e) {
-      Monitoring.logError(e);
+      MonitoringService.logError(e);
       throw new Error('Unable to get user input');
     }
 
