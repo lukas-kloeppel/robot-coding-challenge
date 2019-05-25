@@ -3,7 +3,7 @@ import { BoardPosition } from './board-position.model';
 /**
  * Game board model as the area where a robot can be placed and can move
  */
-export class GameBoardModel {
+export class GameBoard {
 
   private readonly x: number;
   private readonly y: number;

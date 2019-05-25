@@ -1,4 +1,4 @@
-import { GameBoardModel } from './models/game-board.model';
+import { GameBoard } from './models/game-board.model';
 import { UserCommunication } from './interfaces/user-communication.interface';
 import { CliService } from './services/cli.service';
 import { Robot } from './models/robot';
@@ -8,7 +8,7 @@ import { Robot } from './models/robot';
  */
 export class RobotSimulator {
 
-  private board: GameBoardModel;
+  private board: GameBoard;
   private communicationService: UserCommunication;
   private robot: Robot;
 
@@ -21,7 +21,7 @@ export class RobotSimulator {
    */
   private initSimulation(): void {
     this.communicationService = new CliService();
-    this.board = new GameBoardModel(5, 5);
+    this.board = new GameBoard(5, 5);
     this.robot = new Robot();
   }
 
