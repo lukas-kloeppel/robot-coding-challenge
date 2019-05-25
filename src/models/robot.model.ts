@@ -17,6 +17,7 @@ export class Robot {
 
   /**
    * Get current position of robot
+   * @return board position
    */
   get position(): BoardPosition {
     return this._position;
