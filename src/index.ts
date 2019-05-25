@@ -1,4 +1,21 @@
-console.log('Server started');
+import { RobotSimulator } from './services/robot-simulator';
+import chalk from 'chalk';
+
+console.log(chalk.blue('Robot simulation started'));
+
+const simulation = new RobotSimulator();
+
+simulation.run().then(
+  () => {
+    console.log(chalk.blue('Robot simulation successfully finished'));
+  }
+).catch(
+  (e: any) => {
+    console.error('Robot simulation has been stopped because of an error: ');
+    console.error(e);
+    gracefulShutdown();
+  }
+);
 
 /**
  * close all open connections and save game
