@@ -1,7 +1,7 @@
 import { Direction } from './enums/direction.enum';
 
 /**
- * Position on the board containing x, y, and the direction the robot is facing
+ * Position on the board containing x, y, and the direction the robot is facing. Board position is immutable
  */
 export class BoardPosition {
 

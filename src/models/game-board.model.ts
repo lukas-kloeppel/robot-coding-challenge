@@ -5,12 +5,12 @@ import { BoardPosition } from './board-position.model';
  */
 export class GameBoard {
 
-  private readonly x: number;
-  private readonly y: number;
+  private readonly _x: number;
+  private readonly _y: number;
 
   constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+    this._x = x;
+    this._y = y;
   }
 
   /**
@@ -19,11 +19,27 @@ export class GameBoard {
    * @return boolean if the position is valid on the board or not
    */
   isPositionValid(position: BoardPosition): boolean {
-    return position.x >= 0
-      && position.x <= this.x
-      && position.y >= 0
-      && position.y <= this.y;
+    if (!position) {
+      return false;
+    }
 
+    return position.x >= 0
+      && position.x <= this._x
+      && position.y >= 0
+      && position.y <= this._y;
   }
 
+  /**
+   * Get max x value for board
+   */
+  get x(): number {
+    return this._x;
+  }
+
+  /**
+   * Get max y value for board
+   */
+  get y(): number {
+    return this._y;
+  }
 }

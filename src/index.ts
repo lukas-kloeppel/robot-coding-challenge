@@ -3,16 +3,16 @@ import chalk from 'chalk';
 
 console.log(chalk.blue('Robot simulation started'));
 
-const simulation = new RobotSimulator();
+const simulator: RobotSimulator = new RobotSimulator();
 
-simulation.run().then(
+simulator.run().then(
   () => {
-    console.log(chalk.blue('Robot simulation successfully finished'));
+    console.log(chalk.blue('Robot simulation finished'));
   }
 ).catch(
-  (e: any) => {
-    console.error('Robot simulation has been stopped because of an error: ');
-    console.error(e);
+  (e: Error) => {
+    console.log(chalk.red('Robot simulation has been stopped because of an error'));
+    console.log(chalk.red(`${e.name}: ${e.message}`));
     gracefulShutdown();
   }
 );
@@ -21,8 +21,8 @@ simulation.run().then(
  * close all open connections and save game
  */
 function gracefulShutdown(): void {
-  // Possibly close open connections /  save game result or do other actions
-  console.info('Shutting down server');
+  // Possibly close open connections / save game result or do other actions
+  console.log(chalk.blue('Shutting down server'));
   process.exit();
 
 }
