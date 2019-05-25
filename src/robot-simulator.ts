@@ -51,20 +51,20 @@ export class RobotSimulator {
 
         if (input.toLowerCase().trim() === 'stop') {
           stop = true;
-          return;
+
+        } else {
+
+          const parsedResult: { command: RobotCommand, args: string[] } = this.parseInput(input);
+          // set the new position if the command was executed successfully.
+          // Checks if the position is valid are done in the respective commands, so we can be sure that the action is allowed
+          this.robot.position = parsedResult.command.execute(this.robot, this.board, parsedResult.args);
         }
 
-        const parsedResult: { command: RobotCommand, args: string[] } = this.parseInput(input);
-
-        // set the new position if the command was executed successfully.
-        // Checks if the position is valid are done in the respective commands, so we can be sure that the action is allowed
-        this.robot.position = parsedResult.command.execute(this.robot, this.board, parsedResult.args);
-
-      } catch (e) {
-        if (e instanceof UserInteractionError) {
-          console.log(chalk.blue(e.message));
+      } catch (error) {
+        if (error instanceof UserInteractionError) {
+          console.log(chalk.blue(error.message));
         } else {
-          throw e;
+          throw error;
         }
 
       }

@@ -9,7 +9,7 @@ export class UserInteractionError extends Error {
     super(m);
     this.name = 'UserInteractionError';
 
-    // Set the prototype explicitly.
+    // Set the prototype explicitly. This is required to be able to to call "instanceof UserInteractionError"
     Object.setPrototypeOf(this, UserInteractionError.prototype);
   }
 
