@@ -1,7 +1,7 @@
 import { GameBoard } from './models/game-board.model';
 import { UserCommunication } from './interfaces/user-communication.interface';
 import { CliService } from './services/cli.service';
-import { Robot } from './models/robot';
+import { Robot } from './models/robot.model';
 
 /**
  * Robot simulator class containing the logic to run the simulation process of the robot
