@@ -2,6 +2,7 @@ import { assert } from 'chai';
 import { RobotSimulator } from '../../src/simulators/robot.simulator';
 import { CliService } from '../../src/services/cli.service';
 import * as sinon from 'sinon';
+import { MESSAGES } from '../../src/static/messages';
 
 describe('Report command', () => {
 
@@ -41,7 +42,7 @@ describe('Report command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Robot has not yet been placed. Use the PLACE command to place the robot before using the REPORT command.');
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_REPORT_NOT_PLACED_ERROR);
       assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });

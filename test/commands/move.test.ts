@@ -2,6 +2,7 @@ import { assert } from 'chai';
 import { RobotSimulator } from '../../src/simulators/robot.simulator';
 import { CliService } from '../../src/services/cli.service';
 import * as sinon from 'sinon';
+import { MESSAGES } from '../../src/static/messages';
 
 describe('Move command', () => {
 
@@ -41,7 +42,7 @@ describe('Move command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Robot has not yet been placed. Use the PLACE command to place the robot before using the MOVE command.');
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_MOVE_NOT_PLACED_ERROR);
       assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
@@ -62,7 +63,7 @@ describe('Move command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'MOVE command aborted because Robot would fall off the board. Please turn robot before reusing the MOVE command.');
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_MOVE_OUT_OF_BOARD_ERROR);
       assert.equal(sendMessageToUserSpy.getCall(1).args[0], 'Position of the robot: 3,0,SOUTH');
       assert.equal(sendMessageToUserSpy.callCount, 2);
       done();
@@ -84,7 +85,7 @@ describe('Move command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'MOVE command aborted because Robot would fall off the board. Please turn robot before reusing the MOVE command.');
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_MOVE_OUT_OF_BOARD_ERROR);
       assert.equal(sendMessageToUserSpy.getCall(1).args[0], 'Position of the robot: 0,3,WEST');
       assert.equal(sendMessageToUserSpy.callCount, 2);
       done();
@@ -106,7 +107,7 @@ describe('Move command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'MOVE command aborted because Robot would fall off the board. Please turn robot before reusing the MOVE command.');
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_MOVE_OUT_OF_BOARD_ERROR);
       assert.equal(sendMessageToUserSpy.getCall(1).args[0], 'Position of the robot: 3,5,NORTH');
       assert.equal(sendMessageToUserSpy.callCount, 2);
       done();
@@ -128,7 +129,7 @@ describe('Move command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'MOVE command aborted because Robot would fall off the board. Please turn robot before reusing the MOVE command.');
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_MOVE_OUT_OF_BOARD_ERROR);
       assert.equal(sendMessageToUserSpy.getCall(1).args[0], 'Position of the robot: 5,3,EAST');
       assert.equal(sendMessageToUserSpy.callCount, 2);
       done();
