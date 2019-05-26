@@ -1,6 +1,7 @@
 import * as inquirer from 'inquirer';
-import { MonitoringService } from './monitoring.service';
 import { UserCommunication } from '../interfaces/user-communication.interface';
+import { UserResponseType } from '../models/enums/user-response-type.enum';
+import chalk from 'chalk';
 
 /**
  * Util handling all cli related actions like reading of an input string.
@@ -25,10 +26,25 @@ export class CliService implements UserCommunication {
       return result['user-input'].trim();
 
     } catch (e) {
-      MonitoringService.logError(e);
       throw new Error('Unable to get user input');
     }
 
+  }
+
+  public async sendResponseToUser(message: string, type: UserResponseType): Promise<any> {
+    switch (type) {
+      case UserResponseType.MESSAGE:
+        console.log(message);
+        break;
+      case UserResponseType.INFO:
+        console.log(chalk.blue(message));
+        break;
+      case UserResponseType.ERROR:
+        console.log(chalk.red(message));
+        break;
+    }
+
+    return null;
   }
 
 }

@@ -4,6 +4,7 @@ import { GameBoard } from '../models/game-board.model';
 import { BoardPosition } from '../models/board-position.model';
 import { Direction } from '../models/enums/direction.enum';
 import { UserInteractionError } from '../errors/user-interaction.error';
+import { MESSAGES } from '../static/messages';
 
 /**
  * Command to move the robot by one step further. Checks if the new position is valid, otherwise an error is thrown.
@@ -28,7 +29,7 @@ export class MoveCommand implements RobotCommand {
    */
   execute(robot: Robot, board: GameBoard, args: string[]): BoardPosition {
     if (!robot.isRobotPlaced()) {
-      throw new UserInteractionError('Robot has not yet been placed. Use the PLACE command to place the robot before using the MOVE command');
+      throw new UserInteractionError(MESSAGES.COMMAND_MOVE_NOT_PLACED_ERROR);
     }
 
     let newPosition: BoardPosition;
@@ -50,7 +51,7 @@ export class MoveCommand implements RobotCommand {
 
     // Check if the new position is valid, if not throw an interaction error.
     if (!board.isPositionValid(newPosition)) {
-      throw new UserInteractionError('MOVE command aborted because Robot would fall off the board. Please turn robot before reusing the MOVE command.');
+      throw new UserInteractionError(MESSAGES.COMMAND_MOVE_OUT_OF_BOARD_ERROR);
     }
 
     return newPosition;

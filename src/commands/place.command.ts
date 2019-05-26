@@ -4,6 +4,7 @@ import { GameBoard } from '../models/game-board.model';
 import { Direction } from '../models/enums/direction.enum';
 import { BoardPosition } from '../models/board-position.model';
 import { UserInteractionError } from '../errors/user-interaction.error';
+import { MESSAGES } from '../static/messages';
 
 /**
  * Command to place the robot on the board.
@@ -38,6 +39,7 @@ export class PlaceCommand implements RobotCommand {
     const position: BoardPosition = this.validateAndParsePlaceArgs(args);
 
     if (!board.isPositionValid(position)) {
+      // this message cannot go in the messages config cause the available values are dynamic based on the board size
       throw new UserInteractionError(
         `The robot Cannot be placed outside the game board. \nAvailable values for x: 0 - ${board.x} \nAvailable values for y: 0 - ${board.y}`
       );
@@ -59,9 +61,7 @@ export class PlaceCommand implements RobotCommand {
   private validateAndParsePlaceArgs(args: string[]): BoardPosition {
     // Check if there are three arguments entered with the PLACE command. If not, throw an interaction error.
     if (args.length !== 3) {
-      throw new UserInteractionError(
-        'PLACE command requires the placement position (X,Y) and the compass direction (F) as arguments. \nCorrect format: PLACE X,Y,F \n Example usage: PLACE 3,2,NORTH'
-      );
+      throw new UserInteractionError(MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
     }
 
     // parse first and second argument into numbers for the position on the board
@@ -70,20 +70,16 @@ export class PlaceCommand implements RobotCommand {
 
     // Validate if the first both arguments are numeric. They will be used for the position (x,y) If not, throw an interaction error.
     if (isNaN(x) || isNaN(y)) {
-      throw new UserInteractionError(
-        'PLACE command requires that the position (X, Y) are valid numbers. \nExample usage: PLACE 3,2,NORTH'
-      );
+      throw new UserInteractionError(MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
     }
 
     // Validate if third parameter is a valid compass direction. If not, throw an interaction error.
     if (!Object.values(Direction).includes(args[2].toLowerCase())) {
-      throw new UserInteractionError(
-        `PLACE command requires the direction (F) to be either ${Object.values(Direction).join(', ').toUpperCase()}. \nExample usage: PLACE 3,2,NORTH`
-      );
+      throw new UserInteractionError(MESSAGES.COMMAND_PLACE_ARGS_INVALID_DIRECTION_ERROR);
     }
 
     // TODO fix and make nicer
-    const direction: Direction = <Direction>args[2];
+    const direction: Direction = <Direction>args[2].toLowerCase();
 
     return new BoardPosition(x, y, direction);
   }

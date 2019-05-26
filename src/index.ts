@@ -1,22 +1,27 @@
 import { RobotSimulator } from './robot-simulator';
-import chalk from 'chalk';
+import { UserCommunication } from './interfaces/user-communication.interface';
+import { CliService } from './services/cli.service';
+import { UserResponseType } from './models/enums/user-response-type.enum';
+
+// setup cli interface
+const userCommunication: UserCommunication = new CliService();
 
 // Show start up message
-console.log(chalk.blue('Robot simulator started'));
+userCommunication.sendResponseToUser('Robot simulator started', UserResponseType.INFO);
 
 // Create simulator
-const simulator: RobotSimulator = new RobotSimulator();
+const simulator: RobotSimulator = new RobotSimulator(userCommunication);
 
 // Start robot simulator
 simulator.run().then(
   () => {
     // When simulator is closed, show exit message
-    console.log(chalk.blue('Robot simulator finished'));
+    userCommunication.sendResponseToUser('Robot simulator finished', UserResponseType.INFO);
   }
 ).catch(
   (e: Error) => {
-    console.log(chalk.red('Robot simulator has been stopped because of an error'));
-    console.log(chalk.red(`${e.name}: ${e.message}`));
+    userCommunication.sendResponseToUser('Robot simulator has been stopped because of an error', UserResponseType.ERROR);
+    userCommunication.sendResponseToUser(`${e.name}: ${e.message}`, UserResponseType.ERROR);
     gracefulShutdown();
   }
 );
@@ -26,7 +31,7 @@ simulator.run().then(
  */
 function gracefulShutdown(): void {
   // Possibly close open connections / save game result or do other actions
-  console.log(chalk.blue('Shutting down server'));
+  userCommunication.sendResponseToUser('Shutting down server', UserResponseType.INFO);
   process.exit();
 
 }
