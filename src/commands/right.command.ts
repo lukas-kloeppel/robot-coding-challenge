@@ -4,6 +4,7 @@ import { GameBoard } from '../models/game-board.model';
 import { BoardPosition } from '../models/board-position.model';
 import { Direction } from '../models/enums/direction.enum';
 import { UserInteractionError } from '../errors/user-interaction.error';
+import { MESSAGES } from '../static/messages';
 
 /**
  *  Command to turn the robot right on the board (e.g. change direction from north to east)
@@ -27,7 +28,7 @@ export class RightCommand implements RobotCommand {
    */
   execute(robot: Robot, board: GameBoard, args: string[]): BoardPosition {
     if (!robot.isRobotPlaced()) {
-      throw new UserInteractionError('Robot has not yet been placed. Use the PLACE command to place the robot before using the RIGHT command');
+      throw new UserInteractionError(MESSAGES.COMMAND_RIGHT_NOT_PLACED_ERROR);
     }
 
     switch (robot.position.direction) {
