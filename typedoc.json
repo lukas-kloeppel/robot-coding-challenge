@@ -1,0 +1,19 @@
+{
+  "name": "Robot Coding Challenge",
+  "mode": "modules",
+  "out": "docs",
+  "theme": "default",
+  "ignoreCompilerErrors": true,
+  "experimentalDecorators": "true",
+  "emitDecoratorMetadata": "true",
+  "target": "es2018",
+  "moduleResolution": "node",
+  "preserveConstEnums": "true",
+  "stripInternal": "true",
+  "suppressExcessPropertyErrors": "true",
+  "suppressImplicitAnyIndexErrors": "true",
+  "module": "commonjs",
+  "excludePrivate": true,
+  "tsconfig": "./tsconfig.json",
+  "readme": "./README.md"
+}
