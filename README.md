@@ -198,3 +198,11 @@ TypeScript docs are automatically generated based on the code and the comments i
 Run ``npm run docs`` to generate the documentation for the latest code.
 
 After generating the documentation successfully, the full documentation is available in the ``docs/index.html`` file.
+
+## Author
+
+**Lukas Kloeppel** - [lukas-kloeppel](https://github.com/lukas-kloeppel)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
