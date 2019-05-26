@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { RobotSimulator } from '../../src/robot-simulator';
+import { RobotSimulator } from '../../src/simulators/robot.simulator';
 import { CliService } from '../../src/services/cli.service';
 import * as sinon from 'sinon';
 import { MESSAGES } from '../../src/static/messages';
@@ -12,7 +12,7 @@ describe('Place command', () => {
   let simulator: RobotSimulator;
   let communicationService: CliService;
   let getUserInputStub: sinon.SinonStub;
-  let sendResponseToUserSpy: sinon.SinonSpy;
+  let sendMessageToUserSpy: sinon.SinonSpy;
 
   // setup simulator before each test to have a "clean" setup of the board and robot
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('Place command', () => {
     getUserInputStub = sinon.stub(CliService.prototype, 'getUserInput');
 
     // spy on the response to the user to validate if the output was as assumed
-    sendResponseToUserSpy = sinon.spy(CliService.prototype, 'sendResponseToUser');
+    sendMessageToUserSpy = sinon.spy(CliService.prototype, 'sendMessageToUser');
 
   });
 
@@ -45,8 +45,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -64,8 +64,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -83,8 +83,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -102,8 +102,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_LENGTH_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -121,8 +121,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -140,8 +140,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -159,8 +159,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -178,8 +178,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_NUMERIC_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -197,8 +197,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_INVALID_DIRECTION_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], MESSAGES.COMMAND_PLACE_ARGS_INVALID_DIRECTION_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -216,8 +216,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -235,8 +235,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -254,8 +254,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -273,8 +273,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -293,10 +293,10 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
-      assert.equal(sendResponseToUserSpy.getCall(1).args[0], MESSAGES.COMMAND_REPORT_NOT_PLACED_ERROR);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
+      assert.equal(sendMessageToUserSpy.getCall(1).args[0], MESSAGES.COMMAND_REPORT_NOT_PLACED_ERROR);
 
-      assert.equal(sendResponseToUserSpy.callCount, 2);
+      assert.equal(sendMessageToUserSpy.callCount, 2);
       done();
     });
 
@@ -315,8 +315,8 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], 'Position of the robot: 2,2,NORTH');
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Position of the robot: 2,2,NORTH');
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -337,9 +337,9 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], 'Position of the robot: 2,2,NORTH');
-      assert.equal(sendResponseToUserSpy.getCall(1).args[0], 'Position of the robot: 4,3,EAST');
-      assert.equal(sendResponseToUserSpy.callCount, 2);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Position of the robot: 2,2,NORTH');
+      assert.equal(sendMessageToUserSpy.getCall(1).args[0], 'Position of the robot: 4,3,EAST');
+      assert.equal(sendMessageToUserSpy.callCount, 2);
       done();
     });
 
@@ -360,10 +360,10 @@ describe('Place command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], 'Position of the robot: 2,2,NORTH');
-      assert.equal(sendResponseToUserSpy.getCall(1).args[0], BOARD_SIZE_ERROR);
-      assert.equal(sendResponseToUserSpy.getCall(2).args[0], 'Position of the robot: 2,2,NORTH');
-      assert.equal(sendResponseToUserSpy.callCount, 3);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Position of the robot: 2,2,NORTH');
+      assert.equal(sendMessageToUserSpy.getCall(1).args[0], BOARD_SIZE_ERROR);
+      assert.equal(sendMessageToUserSpy.getCall(2).args[0], 'Position of the robot: 2,2,NORTH');
+      assert.equal(sendMessageToUserSpy.callCount, 3);
       done();
     });
 

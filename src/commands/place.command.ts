@@ -1,10 +1,9 @@
 import { RobotCommand } from '../interfaces/robot-command.interface';
-import { Robot } from '../models/robot.model';
-import { GameBoard } from '../models/game-board.model';
 import { Direction } from '../models/enums/direction.enum';
 import { BoardPosition } from '../models/board-position.model';
 import { UserInteractionError } from '../errors/user-interaction.error';
 import { MESSAGES } from '../static/messages';
+import { RobotSimulator } from '../simulators/robot.simulator';
 
 /**
  * Command to place the robot on the board.
@@ -29,19 +28,18 @@ export class PlaceCommand implements RobotCommand {
    * Second argument: y (has to be a number)
    * Third argument: direction (has to be NORTH, EAST, SOUTH or WEST)
    *
-   * @param robot Robot to be placed.
-   * @param board Board where the simulation takes place
+   * @param simulator Robot simulator containing robot, game board and communication entities
    * @param args List of arguments that are required for the place command
    *
    * @return Valid position of the robot to be placed
    */
-  execute(robot: Robot, board: GameBoard, args: string[]): BoardPosition {
+  execute(simulator: RobotSimulator, args: string[]): BoardPosition {
     const position: BoardPosition = this.validateAndParsePlaceArgs(args);
 
-    if (!board.isPositionValid(position)) {
+    if (!simulator.board.isPositionValid(position)) {
       // this message cannot go in the messages config cause the available values are dynamic based on the board size
       throw new UserInteractionError(
-        `The robot Cannot be placed outside the game board. \nAvailable values for x: 0 - ${board.x} \nAvailable values for y: 0 - ${board.y}`
+        `The robot Cannot be placed outside the game board. \nAvailable values for x: 0 - ${simulator.board.maxWidth} \nAvailable values for y: 0 - ${simulator.board.maxHeight}`
       );
     }
 
@@ -78,7 +76,6 @@ export class PlaceCommand implements RobotCommand {
       throw new UserInteractionError(MESSAGES.COMMAND_PLACE_ARGS_INVALID_DIRECTION_ERROR);
     }
 
-    // TODO fix and make nicer
     const direction: Direction = <Direction>args[2].toLowerCase();
 
     return new BoardPosition(x, y, direction);

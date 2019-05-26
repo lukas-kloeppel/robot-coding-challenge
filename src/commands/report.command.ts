@@ -1,10 +1,9 @@
 import { RobotCommand } from '../interfaces/robot-command.interface';
-import { Robot } from '../models/robot.model';
-import { GameBoard } from '../models/game-board.model';
 import { BoardPosition } from '../models/board-position.model';
 import { UserInteractionError } from '../errors/user-interaction.error';
 import { UserResponseType } from '../models/enums/user-response-type.enum';
 import { MESSAGES } from '../static/messages';
+import { RobotSimulator } from '../simulators/robot.simulator';
 
 /**
  * Command to print the current position of the robot on the board
@@ -20,23 +19,22 @@ export class ReportCommand implements RobotCommand {
    *
    * REPORT command requires robot to be placed
    *
-   * @param robot Robot to be placed.
-   * @param board Board where the simulation takes place
+   * @param simulator Robot simulator containing robot, game board and communication entities
    * @param args No args are required for the report command
    *
    * @return Valid position of the robot (same as the position before the report command)
    */
-  execute(robot: Robot, board: GameBoard, args: string[]): BoardPosition {
-    if (!robot.isRobotPlaced()) {
+  execute(simulator: RobotSimulator, args: string[]): BoardPosition {
+    if (!simulator.robot.isRobotPlaced()) {
       throw new UserInteractionError(MESSAGES.COMMAND_REPORT_NOT_PLACED_ERROR);
     }
 
-    board.userCommunication.sendResponseToUser(
-      `Position of the robot: ${robot.position.x},${robot.position.y},${robot.position.direction.toUpperCase()}`,
+    simulator.userCommunication.sendMessageToUser(
+      `Position of the robot: ${simulator.robot.position.x},${simulator.robot.position.y},${simulator.robot.position.direction.toUpperCase()}`,
       UserResponseType.MESSAGE
     );
 
-    return robot.position;
+    return simulator.robot.position;
   }
 
 }
