@@ -1,23 +1,25 @@
-import { GameBoard } from './models/game-board.model';
-import { Robot } from './models/robot.model';
-import { RobotCommand } from './interfaces/robot-command.interface';
-import { PlaceCommand } from './commands/place.command';
-import { UserInteractionError } from './errors/user-interaction.error';
-import { ReportCommand } from './commands/report.command';
-import { MoveCommand } from './commands/move.command';
-import { RightCommand } from './commands/right.command';
-import { LeftCommand } from './commands/left.command';
-import { UserResponseType } from './models/enums/user-response-type.enum';
-import { UserCommunication } from './interfaces/user-communication.interface';
+import { GameBoard } from '../models/game-board.model';
+import { Robot } from '../models/robot.model';
+import { RobotCommand } from '../interfaces/robot-command.interface';
+import { PlaceCommand } from '../commands/place.command';
+import { UserInteractionError } from '../errors/user-interaction.error';
+import { ReportCommand } from '../commands/report.command';
+import { MoveCommand } from '../commands/move.command';
+import { RightCommand } from '../commands/right.command';
+import { LeftCommand } from '../commands/left.command';
+import { UserResponseType } from '../models/enums/user-response-type.enum';
+import { UserCommunication } from '../interfaces/user-communication.interface';
+import { Simulator } from '../interfaces/simulator.interface';
 
 /**
  * Robot simulator class containing the logic to run the simulation process of the robot
  */
-export class RobotSimulator {
+export class RobotSimulator implements Simulator {
 
-  private board: GameBoard;
-  private robot: Robot;
-  private commands: RobotCommand[] = [];
+  private _board: GameBoard;
+  private _robot: Robot;
+  private _commands: RobotCommand[] = [];
+  private _userCommunication: UserCommunication;
 
   constructor(communicationInterface: UserCommunication) {
     this.init(communicationInterface);
@@ -26,11 +28,12 @@ export class RobotSimulator {
   /**
    * Initializes all required dependencies for the simulator: The game board, all available commands and the robot
    */
-  private init(communicationInterface: UserCommunication): void {
-    this.board = new GameBoard(5, 5, communicationInterface);
-    this.robot = new Robot();
+  private init(userCommunication: UserCommunication): void {
+    this._userCommunication = userCommunication;
+    this._board = new GameBoard(5, 5);
+    this._robot = new Robot();
 
-    this.commands.push(new PlaceCommand(), new ReportCommand(), new MoveCommand(), new RightCommand(), new LeftCommand());
+    this._commands.push(new PlaceCommand(), new ReportCommand(), new MoveCommand(), new RightCommand(), new LeftCommand());
   }
 
   /**
@@ -43,7 +46,7 @@ export class RobotSimulator {
     // accept user inputs as long as the user does not enter 'stop'
     while (!stop) {
       try {
-        const input = await this.board.userCommunication.getUserInput('Enter command');
+        const input = await this._userCommunication.getUserInput('Enter command');
 
         if (input.toLowerCase().trim() === 'stop') {
           stop = true;
@@ -51,15 +54,14 @@ export class RobotSimulator {
         } else {
 
           const parsedInput: { command: RobotCommand, args: string[] } = this.parseInput(input);
-
           // set the new position if the command was executed successfully.
           // Checks if the position is valid are done in the respective commands, so we can be sure that the action is allowed
-          this.robot.position = parsedInput.command.execute(this.robot, this.board, parsedInput.args);
+          this._robot.position = parsedInput.command.execute(this, parsedInput.args);
         }
 
       } catch (error) {
         if (error instanceof UserInteractionError) {
-          this.board.userCommunication.sendResponseToUser(error.message, UserResponseType.INFO);
+          this._userCommunication.sendMessageToUser(error.message, UserResponseType.INFO);
         } else {
           throw error;
         }
@@ -78,10 +80,10 @@ export class RobotSimulator {
     // split input into command string and array of other arguments
     const [commandString, ...splitArgs] = input.trim().split(' ');
 
-    const executableCommand: RobotCommand = this.commands.find(c => c.trigger === commandString.toLowerCase());
+    const executableCommand: RobotCommand = this._commands.find(c => c.trigger === commandString.toLowerCase());
     if (!executableCommand) {
       throw new UserInteractionError(
-        `The command '${commandString}' is not supported by the robot simulator.\nList of available commands: ${this.commands.map(c => c.trigger.toUpperCase()).join(', ')}`);
+        `The command '${commandString}' is not supported by the robot simulator.\nList of available commands: ${this._commands.map(c => c.trigger.toUpperCase()).join(', ')}`);
     }
 
     return {
@@ -92,6 +94,18 @@ export class RobotSimulator {
       args: splitArgs.join('').split(',').filter(arg => arg.length > 0)
     };
 
+  }
+
+  get robot(): Robot {
+    return this._robot;
+  }
+
+  get board(): GameBoard {
+    return this._board;
+  }
+
+  get userCommunication(): UserCommunication {
+    return this._userCommunication;
   }
 
 }

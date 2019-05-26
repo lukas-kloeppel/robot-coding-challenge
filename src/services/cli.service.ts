@@ -31,7 +31,7 @@ export class CliService implements UserCommunication {
 
   }
 
-  public async sendResponseToUser(message: string, type: UserResponseType): Promise<any> {
+  public async sendMessageToUser(message: string, type: UserResponseType): Promise<any> {
     switch (type) {
       case UserResponseType.MESSAGE:
         console.log(message);

@@ -18,6 +18,6 @@ export interface UserCommunication {
    * @param message The message to be send to the user
    * @param type The type of the message. Different message types could be formatted differently / sent differently
    */
-  sendResponseToUser(message: string, type: UserResponseType): Promise<any>;
+  sendMessageToUser(message: string, type: UserResponseType): Promise<any>;
 
 }

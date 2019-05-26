@@ -1,5 +1,5 @@
 import { assert, expect } from 'chai';
-import { RobotSimulator } from '../../src/robot-simulator';
+import { RobotSimulator } from '../../src/simulators/robot.simulator';
 import { CliService } from '../../src/services/cli.service';
 import * as sinon from 'sinon';
 
@@ -8,7 +8,7 @@ describe('Command', () => {
   let simulator: RobotSimulator;
   let communicationService: CliService;
   let getUserInputStub: sinon.SinonStub;
-  let sendResponseToUserSpy: sinon.SinonSpy;
+  let sendMessageToUserSpy: sinon.SinonSpy;
 
   // setup simulator before each test to have a "clean" setup of the board and robot
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('Command', () => {
     getUserInputStub = sinon.stub(CliService.prototype, 'getUserInput');
 
     // spy on the response to the user to validate if the output was as assumed
-    sendResponseToUserSpy = sinon.spy(CliService.prototype, 'sendResponseToUser');
+    sendMessageToUserSpy = sinon.spy(CliService.prototype, 'sendMessageToUser');
 
   });
 
@@ -40,8 +40,8 @@ describe('Command', () => {
     }
 
     simulator.run().then(() => {
-      expect(sendResponseToUserSpy.getCall(0).args[0]).to.contain('The command \'TEST\' is not supported by the robot simulator.');
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      expect(sendMessageToUserSpy.getCall(0).args[0]).to.contain('The command \'TEST\' is not supported by the robot simulator.');
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -59,8 +59,8 @@ describe('Command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], 'Position of the robot: 0,1,NORTH');
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Position of the robot: 0,1,NORTH');
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 
@@ -78,8 +78,8 @@ describe('Command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendResponseToUserSpy.getCall(0).args[0], 'Position of the robot: 0,1,NORTH');
-      assert.equal(sendResponseToUserSpy.callCount, 1);
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Position of the robot: 0,1,NORTH');
+      assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });
 

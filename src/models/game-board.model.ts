@@ -1,19 +1,16 @@
 import { BoardPosition } from './board-position.model';
-import { UserCommunication } from '../interfaces/user-communication.interface';
 
 /**
- * Game board model as the area where a robot can be placed and can move
+ * Game board model as the area where a robot can be placed and can move. Board is immutable
  */
 export class GameBoard {
 
-  private readonly _x: number;
-  private readonly _y: number;
-  private readonly _userCommunication: UserCommunication;
+  private readonly _maxWidth: number;
+  private readonly _maxHeight: number;
 
-  constructor(x: number, y: number, userCommunication: UserCommunication) {
-    this._x = x;
-    this._y = y;
-    this._userCommunication = userCommunication;
+  constructor(maxWidth: number, maxHeight: number) {
+    this._maxWidth = maxWidth;
+    this._maxHeight = maxHeight;
   }
 
   /**
@@ -28,29 +25,23 @@ export class GameBoard {
     }
 
     return position.x >= 0
-      && position.x <= this._x
+      && position.x <= this._maxWidth
       && position.y >= 0
-      && position.y <= this._y;
+      && position.y <= this._maxHeight;
   }
 
   /**
-   * Get max x value for board
+   * Get max width of board
    */
-  get x(): number {
-    return this._x;
+  get maxWidth(): number {
+    return this._maxWidth;
   }
 
   /**
-   * Get max y value for board
+   * Get max height of board
    */
-  get y(): number {
-    return this._y;
+  get maxHeight(): number {
+    return this._maxHeight;
   }
 
-  /**
-   * Get user communication interface
-   */
-  get userCommunication(): UserCommunication {
-    return this._userCommunication;
-  }
 }

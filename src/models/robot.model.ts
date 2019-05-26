@@ -5,7 +5,7 @@ import { BoardPosition } from './board-position.model';
  */
 export class Robot {
 
-  private _position: BoardPosition;
+  private _position: BoardPosition = null;
 
   /**
    * Update position of robot

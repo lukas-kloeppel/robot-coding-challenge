@@ -1,6 +1,5 @@
-import { Robot } from '../models/robot.model';
-import { GameBoard } from '../models/game-board.model';
 import { BoardPosition } from '../models/board-position.model';
+import { RobotSimulator } from '../simulators/robot.simulator';
 
 /**
  * Robot command interface. All robot commands need to implement the interface
@@ -15,11 +14,10 @@ export interface RobotCommand {
 
   /**
    * Handler that will be executed when the command is triggered.
-   * @param robot The robot entity for the simulation
-   * @param board The board entity for the simulation
+   * @param simulator The simulator entity containing all data about the robot and the game board
    * @param args The arguments to be passed to the command
    * @return returns the new position of the robot
    */
-  execute(robot: Robot, board: GameBoard, args?: string[]): BoardPosition;
+  execute(simulator: RobotSimulator, args?: string[]): BoardPosition;
 
 }

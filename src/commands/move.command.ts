@@ -1,10 +1,9 @@
 import { RobotCommand } from '../interfaces/robot-command.interface';
-import { Robot } from '../models/robot.model';
-import { GameBoard } from '../models/game-board.model';
 import { BoardPosition } from '../models/board-position.model';
 import { Direction } from '../models/enums/direction.enum';
 import { UserInteractionError } from '../errors/user-interaction.error';
 import { MESSAGES } from '../static/messages';
+import { RobotSimulator } from '../simulators/robot.simulator';
 
 /**
  * Command to move the robot by one step further. Checks if the new position is valid, otherwise an error is thrown.
@@ -21,36 +20,37 @@ export class MoveCommand implements RobotCommand {
    *
    * MOVE command requires robot to be placed
    *
-   * @param robot Robot to be placed.
-   * @param board Board where the simulation takes place
+   * @param simulator Robot simulator containing robot, game board and communication entities
    * @param args No args are required for the move command
    *
    * @return Valid position of the robot to move to
    */
-  execute(robot: Robot, board: GameBoard, args: string[]): BoardPosition {
-    if (!robot.isRobotPlaced()) {
+  execute(simulator: RobotSimulator, args: string[]): BoardPosition {
+    if (!simulator.robot.isRobotPlaced()) {
       throw new UserInteractionError(MESSAGES.COMMAND_MOVE_NOT_PLACED_ERROR);
     }
 
+    const position: BoardPosition = simulator.robot.position;
+
     let newPosition: BoardPosition;
-    switch (robot.position.direction) {
+    switch (position.direction) {
       case Direction.NORTH:
-        newPosition = new BoardPosition(robot.position.x, robot.position.y + 1, robot.position.direction);
+        newPosition = new BoardPosition(position.x, position.y + 1, position.direction);
         break;
       case Direction.EAST:
-        newPosition = new BoardPosition(robot.position.x + 1, robot.position.y, robot.position.direction);
+        newPosition = new BoardPosition(position.x + 1, position.y, position.direction);
         break;
       case Direction.SOUTH:
-        newPosition = new BoardPosition(robot.position.x, robot.position.y - 1, robot.position.direction);
+        newPosition = new BoardPosition(position.x, position.y - 1, position.direction);
         break;
       case Direction.WEST:
-        newPosition = new BoardPosition(robot.position.x - 1, robot.position.y, robot.position.direction);
+        newPosition = new BoardPosition(position.x - 1, position.y, position.direction);
         break;
 
     }
 
     // Check if the new position is valid, if not throw an interaction error.
-    if (!board.isPositionValid(newPosition)) {
+    if (!simulator.board.isPositionValid(newPosition)) {
       throw new UserInteractionError(MESSAGES.COMMAND_MOVE_OUT_OF_BOARD_ERROR);
     }
 
