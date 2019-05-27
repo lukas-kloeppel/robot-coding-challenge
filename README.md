@@ -7,6 +7,7 @@ The coding challenge is written in Typescript and NodeJs and is packed with webp
 ## Installation
 
 ### Prerequisites
+The application should work in general with every Node version > 8, but it was only tested with the following configuration:
 - Node v8.16.0 (https://nodejs.org/en/download/)
 - npm v6.4.1
 
@@ -36,6 +37,8 @@ After these lines have been printed, the application has started successfully an
 All source code is placed in the ``src`` folder of the application and broke down into multiple different modules and classes.
 
 ## Commands
+
+Commands are used to control the robot. Each command executes a predefined action.
 
 ### PLACE
 
