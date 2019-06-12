@@ -1,4 +1,5 @@
 import { BoardPosition } from './board-position.model';
+import { UserInteractionError } from '../errors/user-interaction.error';
 
 /**
  * Robot model containing the current state of the robot

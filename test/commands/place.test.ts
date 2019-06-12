@@ -3,6 +3,7 @@ import { RobotSimulator } from '../../src/simulators/robot.simulator';
 import { CliService } from '../../src/services/cli.service';
 import * as sinon from 'sinon';
 import { MESSAGES } from '../../src/static/messages';
+import { Obstacle } from '../../src/models/obstacle.model';
 
 describe('Place command', () => {
 
@@ -364,6 +365,30 @@ describe('Place command', () => {
       assert.equal(sendMessageToUserSpy.getCall(1).args[0], BOARD_SIZE_ERROR);
       assert.equal(sendMessageToUserSpy.getCall(2).args[0], 'Position of the robot: 2,2,NORTH');
       assert.equal(sendMessageToUserSpy.callCount, 3);
+      done();
+    });
+
+  });
+
+  it('should not be able to be placed on an obstacle', (done) => {
+
+    const obstacles: Obstacle[] = [];
+
+    obstacles.push(new Obstacle(2, 3));
+
+    simulator.board.addObstacles(obstacles);
+
+    const commands: string[] = [
+      'PLACE 2,3,NORTH',
+      'STOP'
+    ];
+
+    for (let i = 0; i < commands.length; i = i + 1) {
+      getUserInputStub.onCall(i).resolves(commands[i]);
+    }
+
+    simulator.run().then(() => {
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], BOARD_SIZE_ERROR);
       done();
     });
 

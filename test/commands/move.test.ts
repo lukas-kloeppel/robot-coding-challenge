@@ -182,7 +182,7 @@ describe('Move command', () => {
   it('should move to the north', (done) => {
 
     const commands: string[] = [
-      'PLACE 2,2,NORTH',
+      'PLACE 1,1,NORTH',
       'MOVE',
       'REPORT',
       'STOP'
@@ -193,7 +193,7 @@ describe('Move command', () => {
     }
 
     simulator.run().then(() => {
-      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Position of the robot: 2,3,NORTH');
+      assert.equal(sendMessageToUserSpy.getCall(0).args[0], 'Position of the robot: 1,2,NORTH');
       assert.equal(sendMessageToUserSpy.callCount, 1);
       done();
     });

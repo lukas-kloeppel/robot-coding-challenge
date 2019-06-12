@@ -10,6 +10,8 @@ import { LeftCommand } from '../commands/left.command';
 import { UserResponseType } from '../models/enums/user-response-type.enum';
 import { UserCommunication } from '../interfaces/user-communication.interface';
 import { Simulator } from '../interfaces/simulator.interface';
+import { Obstacle } from '../models/obstacle.model';
+import { PathCommand } from '../commands/path.command';
 
 /**
  * Robot simulator class containing the logic to run the simulation process of the robot
@@ -33,7 +35,7 @@ export class RobotSimulator implements Simulator {
     this._board = new GameBoard(5, 5);
     this._robot = new Robot();
 
-    this._commands.push(new PlaceCommand(), new ReportCommand(), new MoveCommand(), new RightCommand(), new LeftCommand());
+    this._commands.push(new PlaceCommand(), new ReportCommand(), new MoveCommand(), new RightCommand(), new LeftCommand(), new PathCommand());
   }
 
   /**
