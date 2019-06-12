@@ -36,7 +36,7 @@ export class PathCommand implements RobotCommand {
 
     const resultPath: { x: number, y: number }[] = this.findPath([], simulator.robot.position.x, simulator.robot.position.y);
 
-    if (!resultPath) {
+    if (resultPath.length === 0) {
       throw new UserInteractionError('No path available');
     }
 
@@ -52,14 +52,14 @@ export class PathCommand implements RobotCommand {
     }
 
     if (!this.board.isPositionValid(new BoardPosition(x, y, null)) || this.wasHere[x][y]) {
-      return null;
+      return [];
     }
 
     this.wasHere[x][y] = true;
 
     if (y < this.board.maxHeight - 1) {
       const newPath = this.findPath(JSON.parse(JSON.stringify(path)), x, y + 1);
-      if (newPath !== null) {
+      if (newPath.length > 0) {
         newPath.push({ x, y });
         return newPath;
       }
@@ -67,7 +67,7 @@ export class PathCommand implements RobotCommand {
 
     if (x < this.board.maxWidth - 1) {
       const newPath = this.findPath(JSON.parse(JSON.stringify(path)), x + 1, y);
-      if (newPath !== null) {
+      if (newPath.length > 0) {
         newPath.push({ x, y });
         return newPath;
       }
@@ -75,7 +75,7 @@ export class PathCommand implements RobotCommand {
 
     if (y > 0) {
       const newPath = this.findPath(JSON.parse(JSON.stringify(path)), x, y - 1);
-      if (newPath !== null) {
+      if (newPath.length > 0) {
         newPath.push({ x, y });
         return newPath;
       }
@@ -83,13 +83,13 @@ export class PathCommand implements RobotCommand {
 
     if (x > 0) {
       const newPath = this.findPath(JSON.parse(JSON.stringify(path)), x - 1, y);
-      if (newPath !== null) {
+      if (newPath.length > 0) {
         newPath.push({ x, y });
         return newPath;
       }
     }
 
-    return null;
+    return [];
   }
 
   private validateAndParsePlaceArgs(args: string[]): BoardPosition {
