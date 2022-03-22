@@ -29,6 +29,7 @@ jspm_packages/
 
 # Optional npm cache directory
 .npm
+.yarn
 
 # Output of 'npm pack'
 *.tgz
